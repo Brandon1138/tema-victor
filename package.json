@@ -4,7 +4,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "cd tshirt-website && npm run dev",
-		"build": "cd tshirt-website && npm run build",
+		"build": "cd tshirt-website && npm install && npm run build",
 		"start": "cd tshirt-website && npm run start",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
