@@ -12,9 +12,9 @@ export default function Navbar() {
 			<div className="container mx-auto px-4 md:px-6">
 				<div className="flex items-center justify-between h-16">
 					{/* Brand Name */}
-					<a href="/" className="text-xl font-bold tracking-tight">
+					<Link href="/" className="text-xl font-bold tracking-tight">
 						COMATI
-					</a>
+					</Link>
 
 					{/* Cart Icon */}
 					<Link

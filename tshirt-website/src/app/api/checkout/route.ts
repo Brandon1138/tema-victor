@@ -60,18 +60,21 @@ export async function POST(request: Request) {
 		}
 
 		// Calculate order amount from items
-		const amount = items.reduce((total: number, item: any) => {
-			if (
-				!item.price ||
-				typeof item.price !== 'number' ||
-				!item.quantity ||
-				typeof item.quantity !== 'number'
-			) {
-				console.error('Invalid item data:', item);
-				throw new Error('Invalid item data');
-			}
-			return total + Math.round(item.price * 100) * item.quantity;
-		}, 0);
+		const amount = items.reduce(
+			(total: number, item: { price: number; quantity: number }) => {
+				if (
+					!item.price ||
+					typeof item.price !== 'number' ||
+					!item.quantity ||
+					typeof item.quantity !== 'number'
+				) {
+					console.error('Invalid item data:', item);
+					throw new Error('Invalid item data');
+				}
+				return total + Math.round(item.price * 100) * item.quantity;
+			},
+			0
+		);
 
 		console.log(
 			'Creating payment intent for amount:',
@@ -92,12 +95,13 @@ export async function POST(request: Request) {
 
 		console.log('Payment intent created successfully:', paymentIntent.id);
 		return NextResponse.json({ clientSecret: paymentIntent.client_secret });
-	} catch (error: any) {
-		console.error('Error in checkout route:', error.message);
-		if (error.type && error.type.startsWith('Stripe')) {
-			console.error('Stripe API error:', error.type, error.message);
+	} catch (error: unknown) {
+		const err = error as { message: string; type?: string };
+		console.error('Error in checkout route:', err.message);
+		if (err.type && err.type.startsWith('Stripe')) {
+			console.error('Stripe API error:', err.type, err.message);
 			return NextResponse.json(
-				{ error: `Stripe error: ${error.message}` },
+				{ error: `Stripe error: ${err.message}` },
 				{ status: 400 }
 			);
 		}

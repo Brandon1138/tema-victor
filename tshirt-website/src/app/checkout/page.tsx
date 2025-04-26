@@ -14,7 +14,6 @@ export default function Checkout() {
 		email: '',
 		address: '',
 	});
-	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [showPayment, setShowPayment] = useState(false);
 
@@ -38,7 +37,6 @@ export default function Checkout() {
 	};
 
 	const handlePaymentSuccess = () => {
-		setIsSubmitting(false);
 		setIsSubmitted(true);
 		clearCart();
 	};
